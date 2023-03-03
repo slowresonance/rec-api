@@ -34,6 +34,9 @@ app.get("/movies", (req, res) => {
     }
     const ids = req.query.ids.split(",").map((id) => parseInt(id));
     const filteredMovies = movies.filter((movie) => ids.includes(movie.id));
+    if (!filteredMovies) {
+      res.status(404).send([]);
+    }
     res.status(200).send(filteredMovies);
   });
 });
@@ -52,6 +55,9 @@ app.get("/users", (req, res) => {
     }
     const ids = req.query.ids.split(",").map((id) => parseInt(id));
     const filteredUsers = users.filter((user) => ids.includes(user.id));
+    if (!filteredUsers) {
+      res.status(404).send([]);
+    }
     res.status(200).send(filteredUsers);
   });
 });
@@ -71,6 +77,9 @@ app.get("/thumbnails", (req, res) => {
     const filteredThumbnails = thumbnails.filter((thumbnail) =>
       ids.includes(thumbnail.id)
     );
+    if (!filteredThumbnails) {
+      res.status(404).send([]);
+    }
     res.status(200).send(filteredThumbnails);
   });
 });
@@ -83,6 +92,9 @@ app.get("/movies/:id", (req, res) => {
     }
     const movies = JSON.parse(data);
     const movie = movies.find((movie) => movie.id === parseInt(req.params.id));
+    if (!movie) {
+      res.status(404).send({});
+    }
     res.status(200).send(movie);
   });
 });
@@ -95,6 +107,9 @@ app.get("/users/:id", (req, res) => {
     }
     const users = JSON.parse(data);
     const user = users.find((user) => user.id === parseInt(req.params.id));
+    if (!user) {
+      res.status(404).send({});
+    }
     res.status(200).send(user);
   });
 });
@@ -109,6 +124,9 @@ app.get("/thumbnails/:id", (req, res) => {
     const thumbnail = thumbnails.find(
       (thumbnail) => thumbnail.id === parseInt(req.params.id)
     );
+    if (!thumbnail) {
+      res.status(404).send({});
+    }
     res.status(200).send(thumbnail);
   });
 });
