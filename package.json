@@ -3,5 +3,27 @@
     "cors": "^2.8.5",
     "express": "^4.18.2",
     "nodemon": "^2.0.21"
+  },
+  "name": "api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mohanvpatta/rec-api.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/mohanvpatta/rec-api/issues"
+  },
+  "homepage": "https://github.com/mohanvpatta/rec-api#readme",
+  "description": "",
+  "engines": {
+    "node": "14.x"
   }
 }
