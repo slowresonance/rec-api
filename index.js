@@ -20,9 +20,7 @@ app.use(express.json());
 //      /users
 //      /users/:id
 
-// app.get("/movies", (req, res) => {
-//   res.status(200).send(handler.getMovies(req.query));
-// });
+// get multiple movies with ids in query string
 app.get("/movies", (req, res) => {
   fs.readFile("./data/movies.json", (err, data) => {
     if (err) {
@@ -30,7 +28,31 @@ app.get("/movies", (req, res) => {
       return;
     }
     const movies = JSON.parse(data);
-    res.status(200).send(movies);
+    if (!req.query.ids) {
+      res.status(200).send(movies);
+      return;
+    }
+    const ids = req.query.ids.split(",").map((id) => parseInt(id));
+    const filteredMovies = movies.filter((movie) => ids.includes(movie.id));
+    res.status(200).send(filteredMovies);
+  });
+});
+
+// get multiple users with ids in query string
+app.get("/users", (req, res) => {
+  fs.readFile("./data/users.json", (err, data) => {
+    if (err) {
+      console.log(err);
+      return;
+    }
+    const users = JSON.parse(data);
+    if (!req.query.ids) {
+      res.status(200).send(users);
+      return;
+    }
+    const ids = req.query.ids.split(",").map((id) => parseInt(id));
+    const filteredUsers = users.filter((user) => ids.includes(user.id));
+    res.status(200).send(filteredUsers);
   });
 });
 
@@ -43,17 +65,6 @@ app.get("/movies/:id", (req, res) => {
     const movies = JSON.parse(data);
     const movie = movies.find((movie) => movie.id === parseInt(req.params.id));
     res.status(200).send(movie);
-  });
-});
-
-app.get("/users", (req, res) => {
-  fs.readFile("./data/users.json", (err, data) => {
-    if (err) {
-      console.log(err);
-      return;
-    }
-    const users = JSON.parse(data);
-    res.status(200).send(users);
   });
 });
 
