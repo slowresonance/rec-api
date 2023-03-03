@@ -56,6 +56,25 @@ app.get("/users", (req, res) => {
   });
 });
 
+app.get("/thumbnails", (req, res) => {
+  fs.readFile("./data/thumbnails.json", (err, data) => {
+    if (err) {
+      console.log(err);
+      return;
+    }
+    const thumbnails = JSON.parse(data);
+    if (!req.query.ids) {
+      res.status(200).send(thumbnails);
+      return;
+    }
+    const ids = req.query.ids.split(",").map((id) => parseInt(id));
+    const filteredThumbnails = thumbnails.filter((thumbnail) =>
+      ids.includes(thumbnail.id)
+    );
+    res.status(200).send(filteredThumbnails);
+  });
+});
+
 app.get("/movies/:id", (req, res) => {
   fs.readFile("./data/movies.json", (err, data) => {
     if (err) {
@@ -77,6 +96,20 @@ app.get("/users/:id", (req, res) => {
     const users = JSON.parse(data);
     const user = users.find((user) => user.id === parseInt(req.params.id));
     res.status(200).send(user);
+  });
+});
+
+app.get("/thumbnails/:id", (req, res) => {
+  fs.readFile("./data/thumbnails.json", (err, data) => {
+    if (err) {
+      console.log(err);
+      return;
+    }
+    const thumbnails = JSON.parse(data);
+    const thumbnail = thumbnails.find(
+      (thumbnail) => thumbnail.id === parseInt(req.params.id)
+    );
+    res.status(200).send(thumbnail);
   });
 });
 
